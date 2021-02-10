@@ -84,11 +84,7 @@ from nuitka.nodes.NodeMakingHelpers import (
 from nuitka.nodes.ReturnNodes import StatementReturn
 from nuitka.nodes.StatementNodes import StatementExpressionOnly
 from nuitka.nodes.SubscriptNodes import ExpressionSubscriptLookup
-from nuitka.nodes.TypeNodes import (
-    ExpressionBuiltinIsinstance,
-    ExpressionBuiltinIssubclass,
-    ExpressionBuiltinType1,
-)
+from nuitka.nodes.TypeNodes import ExpressionBuiltinType1, ExpressionTypeCheck
 from nuitka.nodes.VariableRefNodes import (
     ExpressionTempVariableRef,
     ExpressionVariableRef,
@@ -757,24 +753,9 @@ def getClassBasesMroConversionHelper():
             source_ref=internal_source_ref,
         ),
         makeStatementConditional(
-            condition=ExpressionConditionalAnd(
-                left=ExpressionBuiltinIsinstance(
-                    instance=ExpressionTempVariableRef(
-                        variable=tmp_item_variable, source_ref=internal_source_ref
-                    ),
-                    classes=makeConstantRefNode(
-                        constant=type, source_ref=internal_source_ref
-                    ),
-                    source_ref=internal_source_ref,
-                ),
-                right=ExpressionBuiltinIssubclass(
-                    cls=ExpressionTempVariableRef(
-                        variable=tmp_item_variable, source_ref=internal_source_ref
-                    ),
-                    classes=makeConstantRefNode(
-                        constant=type, source_ref=internal_source_ref
-                    ),
-                    source_ref=internal_source_ref,
+            condition=ExpressionTypeCheck(
+                cls=ExpressionTempVariableRef(
+                    variable=tmp_item_variable, source_ref=internal_source_ref
                 ),
                 source_ref=internal_source_ref,
             ),
