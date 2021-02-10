@@ -23,13 +23,18 @@ to the user while it's being displayed.
 """
 
 from nuitka import Tracing
+from nuitka.utils.Importing import importFromInlineCopy
 from nuitka.utils.ThreadedExecutor import RLock
 
 try:
-    from tqdm import tqdm
+    from tqdm import tqdm  # pylint: disable=I0021,import-error
 except ImportError:
-    tqdm = None
-else:
+    # We handle the case without inline copy too.
+    tqdm = importFromInlineCopy("tqdm", must_exist=True)
+    if tqdm is not None:
+        tqdm = tqdm.tqdm
+
+if tqdm is not None:
     tqdm.set_lock(RLock())
 
 
