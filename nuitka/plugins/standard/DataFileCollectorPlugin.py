@@ -68,7 +68,7 @@ def get_package_paths(package):
     return pkg_base, pkg_dir
 
 
-def _getPackageFiles(module, *packages):
+def _getPackageFiles(module, packages, _):
     """Yield all (!) filenames in given package(s).
 
     Notes:
@@ -252,7 +252,7 @@ class NuitkaPluginDataFileCollector(NuitkaPluginBase):
         "skimage": (_getSubDirectoryFiles, "data", False),
         "weasyprint": (_getSubDirectoryFiles, "css", False),
         "xarray": (_getSubDirectoryFiles, "static", False),
-        "eventlet": (_getPackageFiles, "dns"),  # copy other package source
+        "eventlet": (_getPackageFiles, "dns", False),  # copy other package source
         "gooey": (_getSubDirectoryFiles, ("languages", "images"), False),
     }
 
